@@ -11,6 +11,7 @@ git clone git://github.com/PeiShang/opendota2
 ```
 - Then cd to the folder and run:
 ```shell
+cd opendota2
 pip install .
 ```
 ## 3.Usage
