@@ -6,7 +6,7 @@ from setuptools import setup
 
 setup(
     name="opendota2",
-    version=0.1.0,
+    version="0.1.0",
     author="PeiShang",
     author_email="shangpei92@foxmail.com",
     url="https://github.com/PeiShang/opendota2",
