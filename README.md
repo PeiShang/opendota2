@@ -1,7 +1,7 @@
 # opendota2 v0.1.0
-Author [PeiShang](https://github.com/PeiShang)
-The [OpenDota web api](https://docs.opendota.com/) in python
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
+- Author [PeiShang](https://github.com/PeiShang)
+- The [OpenDota web api](https://docs.opendota.com/) in python
+- [![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
 ## 1.Requirement
 - Python version 3.0+
 ## 2.Download and install
