@@ -6,7 +6,7 @@ from setuptools import setup
 
 setup(
     name="opendota2",
-    version="0.1.0",
+    version="0.1.1",
     author="PeiShang",
     author_email="shangpei92@foxmail.com",
     url="https://github.com/PeiShang/opendota2",
@@ -21,7 +21,7 @@ setup(
                                    'lobbies.json',
                                    'modes.json',
                                    'regions.json']},
-    install_requires=[],
+    install_requires=['pandas'],
     classifiers=[
         "Intended Audience :: Developers",
         "Topic :: Software Development :: Libraries :: Python Modules",
@@ -33,4 +33,4 @@ setup(
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
     ]
-)
+    )

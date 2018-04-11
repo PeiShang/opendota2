@@ -3,8 +3,8 @@
 """OpenDota webAPI wrapper and parser in Python"""
 
 __author__ = "PeiShang"
-__date__ = "01/04/2018"
-__version__ = "1.0"
+__date__ = "11/04/2018"
+__version__ = "0.1.1"
 __licence__ = "GPL"
 
 try:
@@ -15,6 +15,8 @@ from urllib import request
 
 import json
 from .src import urls
+import pandas as pd
+import time
 
 def __build_url(base_url, **kwargs):
     api_query = urlencode(kwargs)
@@ -189,7 +191,7 @@ def get_player_rankings(account_id):
 
 def get_pro_players():
     """Get list of pro players"""
-    base_url = urls.GET_PRO_PLAYER
+    base_url = urls.GET_PRO_PLAYERS
     full_url = __build_url(base_url)
     try:
     	data = request.urlopen(full_url).read()
@@ -492,4 +494,39 @@ def get_database_schema():
     except:
     	data_json = None
     return data_json
+
+def __get_top_teams(limit=2000):
+    """Get data of top teams"""
+    teams = get_teams()
+    top_teams = teams[:limit]
+    top_teams_id = [team['team_id'] for team in top_teams]
+    top_teams_name = [team['name'] for team in top_teams]
+    top_teams_rating = [team['rating'] for team in top_teams]
+    top_teams_rating_dic = dict(zip(top_teams_id, top_teams_rating))
+    return top_teams_id, top_teams_name, top_teams_rating_dic
+
+def __progressBar(value, endvalue, bar_length=20):
+    """print the progress bar"""
+    percent = float(value) / endvalue
+    arrow = '-' * int(round(percent * bar_length)-1) + '>'
+    spaces = ' ' * (bar_length - len(arrow))
+    sys.stdout.write("\rPercent: [{0}] {1}%".format(arrow + spaces, int(round(percent * 100))))
+    sys.stdout.flush()
+
+def get_top_team_matches(team_limit=2000):
+    """get the list of match_id of top teams"""
+    print('getting top {} teams matches...'.format(team_limit))
+    top_teams_id, top_teams_name, top_teams_rating_dic = __get_top_teams(limit=team_limit)
+    match_lst = []
+    team_count = 0
+    for team_id in top_teams_id:
+        try:
+            team_matches = od.get_team_matches(team_id)
+            team_matches_ids = [match['match_id'] for match in team_matches]
+            matches_list += team_matches_ids
+            team_count += 1
+            __progressBar(team_count, team_limit)
+        except:
+            continue
+
 
