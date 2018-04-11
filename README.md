@@ -1,4 +1,4 @@
-# opendota2 v0.1.0
+# opendota2 v0.1.1
 - Author [PeiShang](https://github.com/PeiShang)
 - The [OpenDota web api](https://docs.opendota.com/) in python
 - [![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
