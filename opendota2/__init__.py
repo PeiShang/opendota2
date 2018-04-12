@@ -577,7 +577,7 @@ def __get_top_team_matches(low_lim, up_lim):
                 team_matches_ids = [match['match_id'] for match in team_matches]
                 break
             except Exception as e:
-                time.sleep(10)
+                time.sleep(3)
         matches_lst += team_matches_ids
         team_count += 1
         __progressBar(team_count, up_lim - low_lim)
@@ -633,8 +633,7 @@ def get_top_team_matches_dataframe(low_lim, up_lim):
     matches_id_lst, top_teams_rating_dict = __get_top_team_matches(low_lim, up_lim)
     with open("./matches_lst.csv", "w") as matches_lst_file:
         wr = csv.writer(matches_lst_file)
-        for match_id in matches_id_lst:
-            wr.writerow(match_id)
+        wr.writerow(matches_id_lst)
 
     columns = ['Radiant_team_id','Radiant_team_rating', 'Dire_team_id', 'Dire_team_rating',
            'Radiant_hero1', 'Radiant_hero2', 'Radiant_hero3', 'Radiant_hero4', 'Radiant_hero5',
@@ -680,7 +679,7 @@ def get_top_team_matches_dataframe(low_lim, up_lim):
                     df_match_data.loc[count, 'start_time'] = start_time
                     break
             except Exception as e:
-                time.sleep(10)
+                time.sleep(3)
         count += 1
         __progressBar(count, total_len)
     return df_match_data

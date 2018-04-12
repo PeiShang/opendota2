@@ -3,5 +3,5 @@
 '''Test the api'''
 import opendota2 as op
 
-# get top 100 team matches
-matches_df = op.get_top_team_matches_dataframe(100)
+# get top 10 team matches
+matches_df = op.get_top_team_matches_dataframe(0, 2)
