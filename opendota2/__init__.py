@@ -18,6 +18,7 @@ from .src import urls
 import pandas as pd
 import time
 import sys
+import csv
 
 
 def __build_url(base_url, **kwargs):
@@ -626,6 +627,10 @@ def get_top_team_matches_dataframe(top_team_limit=2000):
     """Generate matches dataframe"""
 
     matches_id_lst, top_teams_rating_dict = __get_top_team_matches(team_limit=top_team_limit)
+    with open("./matches_lst.csv", "w") as matches_lst_file:
+        wr = csv.writer(matches_lst_file)
+        for match_id in matches_id_lst:
+            wr.writerow(match_id)
 
     columns = ['Radiant_team_id','Radiant_team_rating', 'Dire_team_id', 'Dire_team_rating',
            'Radiant_hero1', 'Radiant_hero2', 'Radiant_hero3', 'Radiant_hero4', 'Radiant_hero5',
