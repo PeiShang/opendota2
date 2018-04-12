@@ -540,10 +540,14 @@ def get_database_schema():
     return data_json
 
 
-def __get_top_teams(limit=2000):
-    """Get data of top teams"""
+def __get_top_teams(low_lim, up_lim):
+    """
+    Get data of top teams
+    low_lim: low limit of team rank
+    up_lim: up limit of team rank
+    """
     teams = get_teams()
-    top_teams = teams[:limit]
+    top_teams = teams[low_lim:up_lim]
     top_teams_id = [team['team_id'] for team in top_teams]
     top_teams_name = [team['name'] for team in top_teams]
     top_teams_rating = [team['rating'] for team in top_teams]
@@ -560,10 +564,10 @@ def __progressBar(value, endvalue, bar_length=20):
     sys.stdout.flush()
 
 
-def __get_top_team_matches(team_limit=2000):
+def __get_top_team_matches(low_lim, up_lim):
     """get the list of match_id of top teams"""
-    print('getting top {} teams matches...'.format(team_limit))
-    top_teams_id, top_teams_name, top_teams_rating_dic = __get_top_teams(limit=team_limit)
+    print('getting {} to {} teams matches...'.format(low_lim, up_lim))
+    top_teams_id, top_teams_name, top_teams_rating_dic = __get_top_teams(low_lim, up_lim)
     matches_lst = []
     team_count = 0
     for team_id in top_teams_id:
@@ -576,7 +580,7 @@ def __get_top_team_matches(team_limit=2000):
                 time.sleep(10)
         matches_lst += team_matches_ids
         team_count += 1
-        __progressBar(team_count, team_limit)
+        __progressBar(team_count, up_lim - low_lim)
     return list(set(matches_lst)), top_teams_rating_dic
 
 
@@ -623,10 +627,10 @@ def __if_radiant_10kill(kills_log):
     return kills_log[9][0] == 0
 
 
-def get_top_team_matches_dataframe(top_team_limit=2000):
+def get_top_team_matches_dataframe(low_lim, up_lim):
     """Generate matches dataframe"""
 
-    matches_id_lst, top_teams_rating_dict = __get_top_team_matches(team_limit=top_team_limit)
+    matches_id_lst, top_teams_rating_dict = __get_top_team_matches(low_lim, up_lim)
     with open("./matches_lst.csv", "w") as matches_lst_file:
         wr = csv.writer(matches_lst_file)
         for match_id in matches_id_lst:
