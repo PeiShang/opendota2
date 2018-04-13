@@ -570,17 +570,23 @@ def __get_top_team_matches(low_lim, up_lim):
     top_teams_id, top_teams_name, top_teams_rating_dic = __get_top_teams(low_lim, up_lim)
     matches_lst = []
     team_count = 0
+    fail_count = 0
     for team_id in top_teams_id:
-        for times in range(10):
+        if_fail = 1
+        for times in range(5):
             try:
                 team_matches = get_team_matches(team_id)
                 team_matches_ids = [match['match_id'] for match in team_matches]
+                if_fail = 0
                 break
             except Exception as e:
-                time.sleep(3)
+                time.sleep(1)
         matches_lst += team_matches_ids
         team_count += 1
+        if if_fail:
+            fail_count += 1
         __progressBar(team_count, up_lim - low_lim)
+    print('\nFail on getting {} teams matches'.format(fail_count))
     return list(set(matches_lst)), top_teams_rating_dic
 
 
@@ -641,11 +647,13 @@ def get_top_team_matches_dataframe(low_lim, up_lim):
            'Radiant_win', 'Radiant_fb', 'Radiant_10kill', 'start_time']
 
     count = 0
+    fail_count = 0
     df_match_data = pd.DataFrame(columns=columns)
     total_len = len(matches_id_lst)
     print('\nGenerating matches data...')
     for match_id in matches_id_lst:
-        for times in range(10):
+        if_fail = 1
+        for times in range(5):
             try:
                 # get data from match data
                 match_data = get_match(match_id)
@@ -677,10 +685,14 @@ def get_top_team_matches_dataframe(low_lim, up_lim):
                     df_match_data.loc[count, 'Radiant_fb'] = radiant_fb
                     df_match_data.loc[count, 'Radiant_10kill'] = radiant_10kill
                     df_match_data.loc[count, 'start_time'] = start_time
+                    if_fail = 0
                     break
             except Exception as e:
-                time.sleep(3)
+                time.sleep(1)
         count += 1
+        if if_fail:
+            fail_count += 1
         __progressBar(count, total_len)
+    print('\nFail on getting {} matches')
     return df_match_data
 
